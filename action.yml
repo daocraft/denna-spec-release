@@ -1,0 +1,49 @@
+name: 'Denna Spec Release'
+description: 'Standardized release process for Denna Spec parameter repositories. Reads the repository manifest, reconciles entries, and runs semantic-release.'
+branding:
+  icon: 'package'
+  color: 'green'
+
+inputs:
+  github-token:
+    description: 'GitHub token for creating releases and pushing tags.'
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - name: Setup Bun
+      uses: oven-sh/setup-bun@v2
+
+    - name: Install release dependencies
+      shell: bash
+      working-directory: ${{ github.action_path }}
+      run: |
+        bun add semantic-release@24 \
+          @semantic-release/commit-analyzer@13 \
+          @semantic-release/release-notes-generator@14 \
+          @semantic-release/changelog@6 \
+          @semantic-release/npm@12 \
+          @semantic-release/git@10 \
+          @semantic-release/github@11 \
+          conventional-changelog-conventionalcommits@8 \
+          glob@11
+
+    - name: Run release
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+        NODE_PATH: ${{ github.action_path }}/node_modules
+      run: bun run ${{ github.action_path }}/action/release.mjs
+
+    - name: Update major version tag
+      if: success()
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.github-token }}
+      run: |
+        git remote set-url origin https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}
+        VERSION=$(bun -e "console.log(require('./package.json').version)")
+        MAJOR=$(echo $VERSION | cut -d. -f1)
+        git tag -f "v${MAJOR}" HEAD
+        git push origin "v${MAJOR}" --force
