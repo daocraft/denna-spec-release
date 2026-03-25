@@ -1,5 +1,5 @@
 name: 'Denna Spec Release'
-description: 'Standardized release process for Denna Spec parameter repositories. Reads the repository manifest, reconciles entries, and runs semantic-release.'
+description: 'Standardized release process for Denna Spec parameter repositories.'
 branding:
   icon: 'package'
   color: 'green'
