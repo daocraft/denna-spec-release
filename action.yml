@@ -20,13 +20,13 @@ runs:
       working-directory: ${{ github.action_path }}
       run: |
         bun add semantic-release@23 \
-          @semantic-release/commit-analyzer@13 \
-          @semantic-release/release-notes-generator@14 \
+          @semantic-release/commit-analyzer@12 \
+          @semantic-release/release-notes-generator@13 \
           @semantic-release/changelog@6 \
           @semantic-release/npm@12 \
           @semantic-release/git@10 \
-          @semantic-release/github@11 \
-          conventional-changelog-conventionalcommits@8 \
+          @semantic-release/github@10 \
+          conventional-changelog-conventionalcommits@7 \
           glob@11
 
     - name: Run release
