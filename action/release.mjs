@@ -44,7 +44,9 @@ console.log('Generated .releaserc.json with prepare-manifest plugin.');
 // 4. Run semantic-release
 console.log('\nRunning semantic-release...');
 try {
-  execSync('bunx semantic-release', {
+  const actionRoot = join(actionPath, '..');
+  const srBin = join(actionRoot, 'node_modules', '.bin', 'semantic-release');
+  execSync(srBin, {
     cwd,
     stdio: 'inherit',
     env: { ...process.env }
