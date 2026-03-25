@@ -19,7 +19,7 @@ runs:
       shell: bash
       working-directory: ${{ github.action_path }}
       run: |
-        bun add semantic-release@24 \
+        bun add semantic-release@23 \
           @semantic-release/commit-analyzer@13 \
           @semantic-release/release-notes-generator@14 \
           @semantic-release/changelog@6 \
